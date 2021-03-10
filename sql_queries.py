@@ -32,7 +32,8 @@ USER_TABLE_INSERT_FROM_STAGING = ("""
     INSERT INTO users
     SELECT DISTINCT ON (user_id) *
     FROM users_staging
-    ON CONFLICT DO NOTHING
+    ON CONFLICT (user_id) DO
+        UPDATE SET level = excluded.level
     """)
 
 USER_TABLE_DROP = "DROP TABLE IF EXISTS users"
